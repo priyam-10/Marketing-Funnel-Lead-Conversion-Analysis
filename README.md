@@ -29,6 +29,17 @@ The goal was to understand customer conversion behavior, evaluate campaign perfo
 
 ---
 
+## 🚀 Live Demo
+
+🔗 **[Click here to explore the Live Dashboard](https://marketing-funnel-lead-conversion-analysis.streamlit.app/)**
+
+Experience interactive lead conversion analysis, campaign performance insights, customer segmentation, and dynamic data visualizations.
+
+📊 **[View Project Report (PDF)](https://github.com/priyam-10/Marketing-Funnel-Lead-Conversion-Analysis/blob/main/Marketing_Funnel_Lead_Conversion_Report.pdf)**
+
+
+---
+
 ## 🎯 Project Objectives
 
 - Analyze overall customer conversion performance

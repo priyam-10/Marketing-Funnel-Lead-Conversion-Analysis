@@ -7,81 +7,71 @@ REPORT_URL = REPO_URL + "/blob/main/Marketing_Funnel_Lead_Conversion_Report.pdf"
 DATA_URL = ("https://raw.githubusercontent.com/priyam-10/Marketing-Funnel-Lead-Conversion-Analysis/"
             "main/data/bank-full.csv")
 
-# Theme: modern bento — soft mesh background, white glass cards, ink-black type,
-# electric lime + tangerine + ocean accents
-BG, CARD, LINE, INK, MUTED = "#f3f5f9", "#ffffff", "#e5e8f0", "#0b1220", "#5b6476"
-CORAL, SKY, MINT, GOLD = "#ff7a45", "#2f6bff", "#14b8a6", "#b8e62e"
+# Theme: midnight slate page, slate cards, coral + sky + mint accents, light text
+BG, CARD, LINE, INK, MUTED = "#0e1621", "#172333", "#26364a", "#f1f5f9", "#a9b6c6"
+CORAL, SKY, MINT, GOLD = "#ff6b5b", "#4cc3ff", "#3ddc97", "#ffc857"
 
 st.set_page_config(page_title="Marketing Funnel & Lead Conversion Dashboard", page_icon="🎯",
                    layout="wide", initial_sidebar_state="collapsed")
 
 st.markdown(f"""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
-html, body, .stApp, .stApp *:not([data-testid="stIconMaterial"]):not(.material-symbols-rounded) {{ font-family:'Plus Jakarta Sans', sans-serif; }}
-[data-testid="stIconMaterial"] {{ font-family:'Material Symbols Rounded' !important; }}
-.stApp {{ background:
-   radial-gradient(900px 500px at 0% 0%, rgba(47,107,255,.14), transparent 60%),
-   radial-gradient(800px 500px at 100% 10%, rgba(255,122,69,.14), transparent 60%),
-   radial-gradient(900px 600px at 50% 100%, rgba(184,230,46,.18), transparent 60%), {BG}; }}
-.block-container {{ padding:1.4rem 2rem 2rem; max-width:1500px; }}
+.stApp {{ background:{BG}; }}
+.block-container {{ padding:1.2rem 2rem 2rem; max-width:1500px; }}
 header[data-testid="stHeader"] {{ background:transparent; }}
 section[data-testid="stSidebar"] {{ display:none; }}
-.stApp p, .stApp label, .stApp span, .stApp li {{ color:{INK}; }}
+.stApp, .stApp p, .stApp label, .stApp span, .stApp li {{ color:{INK}; }}
 
-.hero {{ display:grid; grid-template-columns:1fr auto; gap:18px; align-items:center;
-         background:{INK}; border-radius:28px; padding:30px 34px; margin-bottom:18px;
-         box-shadow:0 20px 50px -20px rgba(11,18,32,.45); }}
-.hero .ttl {{ color:#ffffff !important; font-size:38px; font-weight:800; margin:0; padding:0; letter-spacing:-1px; }}
-.hero .ttl b {{ background:{GOLD}; color:{INK}; padding:0 10px; border-radius:10px; }}
-.hero p {{ color:#c9d1e0 !important; margin:10px 0 0; font-size:15px; }}
-.btns a {{ display:block; text-align:center; margin:7px 0; padding:12px 22px; border-radius:999px;
+.hero {{ display:grid; grid-template-columns: 1fr auto; gap:16px; align-items:center;
+         background:linear-gradient(120deg,{CARD} 0%, #1d2d42 100%); border:1px solid {LINE};
+         border-left:6px solid {CORAL}; border-radius:16px; padding:22px 26px; margin-bottom:16px; }}
+.hero h1 {{ color:{INK} !important; font-size:34px; font-weight:800; margin:0; padding:0; }}
+.hero h1 b {{ color:{CORAL}; }}
+.hero p {{ color:{MUTED} !important; margin:6px 0 0; font-size:15px; }}
+.btns a {{ display:block; text-align:center; margin:6px 0; padding:10px 18px; border-radius:10px;
           font-weight:700; text-decoration:none; font-size:14px; }}
-.btns a.rep {{ background:{GOLD}; color:{INK} !important; }}
-.btns a.git {{ background:rgba(255,255,255,.08); color:#ffffff !important; border:1px solid rgba(255,255,255,.35); }}
+.btns a.rep {{ background:{CORAL}; color:#0e1621 !important; }}
+.btns a.git {{ background:transparent; color:{SKY} !important; border:2px solid {SKY}; }}
 
-.stat {{ background:rgba(255,255,255,.85); backdrop-filter:blur(10px); border:1px solid {LINE};
-        border-radius:22px; padding:18px 20px; height:100%; box-shadow:0 8px 24px -12px rgba(11,18,32,.18); }}
-.stat .lb {{ color:{MUTED} !important; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:1px; }}
-.stat .vl {{ color:{INK} !important; font-size:34px; font-weight:800; line-height:1.2; letter-spacing:-1px; }}
+.stat {{ background:{CARD}; border:1px solid {LINE}; border-radius:14px; padding:16px 18px; height:100%; }}
+.stat .lb {{ color:{MUTED} !important; font-size:13px; font-weight:600; }}
+.stat .vl {{ color:var(--c) !important; font-size:32px; font-weight:800; line-height:1.2; }}
 .stat .sm {{ color:{MUTED} !important; font-size:12px; }}
-.stat::before {{ content:""; display:block; width:34px; height:6px; border-radius:6px; background:var(--c); margin-bottom:10px; }}
 
-.insight {{ background:{CARD}; border:1px solid {LINE}; border-radius:22px; padding:22px 26px; }}
-.insight h4 {{ color:{INK} !important; margin:0 0 10px; }}
-.insight li {{ color:{INK} !important; margin-bottom:8px; }}
+.insight {{ background:{CARD}; border:1px solid {LINE}; border-radius:14px; padding:16px 20px; }}
+.insight h4 {{ color:{GOLD} !important; margin:0 0 8px; }}
+.insight li {{ color:{INK} !important; margin-bottom:6px; }}
 
-[data-testid="stExpander"] details {{ background:rgba(255,255,255,.85); border:1px solid {LINE}; border-radius:18px; }}
-[data-testid="stExpander"] summary, [data-testid="stExpander"] summary * {{ color:{INK} !important; font-weight:700; }}
+/* Filter expander */
+[data-testid="stExpander"] details {{ background:{CARD}; border:1px solid {LINE}; border-radius:12px; }}
+[data-testid="stExpander"] summary, [data-testid="stExpander"] summary * {{ color:{INK} !important; }}
 
-/* Dropdowns: white boxes, dark text */
+/* Dropdowns: light boxes with dark text, never black-on-black */
 [data-testid="stSelectbox"] [data-testid="stWidgetLabel"], [data-testid="stSelectbox"] [data-testid="stWidgetLabel"] * {{
-  color:{MUTED} !important; -webkit-text-fill-color:{MUTED} !important; font-weight:700; background:transparent !important; }}
+  color:{SKY} !important; -webkit-text-fill-color:{SKY} !important; font-weight:700; background:transparent !important; }}
 [data-testid="stSelectbox"] div:not([data-testid="stWidgetLabel"]):not([data-testid="stWidgetLabel"] *) {{
-  background-color:#ffffff !important; color:{INK} !important; }}
+  background-color:#f1f5f9 !important; color:#0e1621 !important; }}
 [data-testid="stSelectbox"] > div > div:last-child,
-[data-testid="stSelectbox"] div[data-baseweb="select"] > div {{ border:1px solid {LINE} !important; border-radius:12px !important; }}
+[data-testid="stSelectbox"] div[data-baseweb="select"] > div {{ border:1px solid {LINE} !important; border-radius:8px !important; }}
 [data-testid="stSelectbox"] div:not([data-testid="stWidgetLabel"] *), [data-testid="stSelectbox"] span:not([data-testid="stWidgetLabel"] *),
-[data-testid="stSelectbox"] input {{ color:{INK} !important; -webkit-text-fill-color:{INK} !important; opacity:1 !important; }}
-[data-testid="stSelectbox"] svg {{ fill:{INK} !important; color:{INK} !important; }}
+[data-testid="stSelectbox"] input {{
+  color:#0e1621 !important; -webkit-text-fill-color:#0e1621 !important; opacity:1 !important; }}
+[data-testid="stSelectbox"] svg {{ fill:#0e1621 !important; color:#0e1621 !important; }}
 div[data-baseweb="popover"], div[data-baseweb="popover"] > div, div[data-baseweb="menu"],
-ul[role="listbox"], [data-testid="stSelectboxVirtualDropdown"] {{ background-color:#ffffff !important; }}
-[role="option"], [role="option"] * {{ background-color:#ffffff !important; color:{INK} !important; }}
+ul[role="listbox"], [data-testid="stSelectboxVirtualDropdown"] {{ background-color:#f1f5f9 !important; }}
+[role="option"], [role="option"] * {{ background-color:#f1f5f9 !important; color:#0e1621 !important; }}
 [role="option"]:hover, [role="option"]:hover *, [role="option"][aria-selected="true"],
-[role="option"][aria-selected="true"] * {{ background-color:#eef7d0 !important; }}
+[role="option"][aria-selected="true"] * {{ background-color:#ffd9d4 !important; }}
 
-/* Segmented control */
-div[role="radiogroup"] {{ gap:4px; background:#ffffff; border:1px solid {LINE}; border-radius:999px;
-                          padding:5px; width:fit-content; flex-wrap:wrap; }}
-div[role="radiogroup"] label {{ border-radius:999px; padding:8px 18px !important; margin:0 !important; }}
-div[role="radiogroup"] label > div:first-child, div[role="radiogroup"] label input + div {{ display:none !important; }}
-div[role="radiogroup"] label p {{ color:{MUTED} !important; font-weight:700; }}
-div[role="radiogroup"] label:has(input:checked) {{ background:{INK}; }}
-div[role="radiogroup"] label:has(input:checked) p {{ color:#ffffff !important; }}
+/* Section switcher (radio as pills) */
+div[role="radiogroup"] {{ gap:8px; flex-wrap:wrap; }}
+div[role="radiogroup"] label {{ background:{CARD}; border:1px solid {LINE}; border-radius:999px; padding:6px 16px !important; }}
+div[role="radiogroup"] label p {{ color:{INK} !important; font-weight:600; }}
+div[role="radiogroup"] label:has(input:checked) {{ background:{SKY}; border-color:{SKY}; }}
+div[role="radiogroup"] label:has(input:checked) p {{ color:#0e1621 !important; }}
 
-div[data-testid="stPlotlyChart"] {{ background:{CARD}; border:1px solid {LINE}; border-radius:22px; padding:10px;
-                                     box-shadow:0 8px 24px -12px rgba(11,18,32,.18); overflow:hidden; }}
-.foot {{ text-align:center; color:{MUTED} !important; margin-top:20px; }}
+div[data-testid="stPlotlyChart"] {{ background:{CARD}; border:1px solid {LINE}; border-radius:14px; padding:8px; }}
+.foot {{ text-align:center; color:{MUTED} !important; margin-top:18px; }}
 .foot a {{ color:{SKY} !important; font-weight:700; }}
 </style>
 """, unsafe_allow_html=True)
@@ -106,17 +96,17 @@ df = load()
 # ---------- Hero ----------
 st.markdown(f"""
 <div class="hero">
-  <div><div class="ttl">Marketing Funnel &amp; <b>Lead Conversion</b></div>
+  <div><h1>🎯 Marketing Funnel &amp; <b>Lead Conversion</b> Dashboard</h1>
   <p>Bank telemarketing campaign · who we reached, who engaged, and who subscribed to a term deposit</p></div>
   <div class="btns">
-    <a class="rep" href="{REPORT_URL}" target="_blank">Open Full Report ↗</a>
-    <a class="git" href="{REPO_URL}" target="_blank">GitHub Repository ↗</a>
+    <a class="rep" href="{REPORT_URL}" target="_blank">📄 Open Full Report</a>
+    <a class="git" href="{REPO_URL}" target="_blank">GitHub Repository</a>
   </div>
 </div>""", unsafe_allow_html=True)
 
 # ---------- Filters (collapsible) ----------
 d = df.copy()
-with st.expander("Filter leads", expanded=False):
+with st.expander("🔎  Filter leads", expanded=False):
     cols = st.columns(6)
     for c, (col, label) in zip(cols, [("job", "Job"), ("marital", "Marital Status"), ("education", "Education"),
                                       ("contact", "Contact Method"), ("housing", "Housing Loan"), ("loan", "Personal Loan")]):
@@ -140,8 +130,8 @@ with left:
     fig = go.Figure(go.Funnel(
         y=["Total Leads", "Talked 1+ min", "Talked 3+ min", "Subscribed"],
         x=[total, contacted, engaged, converted], textinfo="value+percent initial",
-        textfont=dict(color="#ffffff", size=15),
-        marker=dict(color=[INK, SKY, MINT, CORAL]), connector=dict(fillcolor="#eef1f7")))
+        textfont=dict(color="#0e1621", size=15),
+        marker=dict(color=[SKY, MINT, GOLD, CORAL]), connector=dict(fillcolor=LINE)))
     fig.update_layout(height=380, paper_bgcolor=CARD, plot_bgcolor=CARD, font=dict(color=INK, size=14),
                       margin=dict(l=130, r=20, t=55, b=10),
                       title=dict(text="<b>Lead Conversion Funnel</b>", x=0.02, font=dict(color=INK, size=18)))
@@ -196,19 +186,19 @@ cfg = {"displayModeBar": False}
 show = lambda c, f: c.plotly_chart(f, use_container_width=True, config=cfg, theme=None)
 
 st.write("")
-section = st.radio("Section", ["Who converts", "Campaign & channel", "Timing", "Key insights"],
+section = st.radio("Section", ["👥 Who converts", "📞 Campaign & channel", "📅 Timing", "💡 Key insights"],
                    horizontal=True, label_visibility="collapsed")
 
-if section == "Who converts":
+if section == "👥 Who converts":
     c1, c2 = st.columns(2)
     show(c1, bars(conv("job"), "Conversion Rate by Job", SKY, horizontal=True, h=460))
     show(c2, bars(conv("Age Group"), "Conversion Rate by Age Group", CORAL, h=460))
     c1, c2, c3 = st.columns(3)
     show(c1, bars(conv("education"), "By Education Level", MINT))
-    show(c2, bars(conv("marital"), "By Marital Status", INK))
+    show(c2, bars(conv("marital"), "By Marital Status", GOLD))
     show(c3, bars(conv("Balance Group"), "By Account Balance", SKY))
 
-elif section == "Campaign & channel":
+elif section == "📞 Campaign & channel":
     c1, c2 = st.columns(2)
     show(c1, bars(conv("poutcome"), "Conversion by Previous Campaign Outcome", CORAL))
     ct = d.groupby(["contact", "y"]).size().unstack(fill_value=0)
@@ -224,15 +214,15 @@ elif section == "Campaign & channel":
     fig = go.Figure(go.Scatter(x=s.index, y=s.values, mode="lines+markers+text", line=dict(color=MINT, width=3),
                                marker=dict(size=9), text=[f"{v:.1f}%" for v in s.values],
                                textposition="top center", textfont=dict(color=INK), fill="tozeroy",
-                               fillcolor="rgba(20,184,166,0.15)"))
+                               fillcolor="rgba(61,220,151,0.15)"))
     fig.update_yaxes(visible=False, range=[0, s.max() * 1.3])
     fig.update_xaxes(title="Number of calls in this campaign", title_font=dict(color=MUTED))
     show(st, style(fig, "Conversion Rate vs Number of Calls"))
 
-elif section == "Timing":
+elif section == "📅 Timing":
     m = d.groupby("Month", observed=True).agg(Leads=("Converted", "size"), Rate=("Converted", "mean"))
     fig = go.Figure()
-    fig.add_trace(go.Bar(x=m.index.str.title(), y=m["Leads"], name="Leads contacted", marker_color="#dfe7ff",
+    fig.add_trace(go.Bar(x=m.index.str.title(), y=m["Leads"], name="Leads contacted", marker_color=LINE,
                          marker_line_color=SKY, marker_line_width=1.5, yaxis="y"))
     fig.add_trace(go.Scatter(x=m.index.str.title(), y=m["Rate"] * 100, name="Conversion rate %", mode="lines+markers+text",
                              line=dict(color=CORAL, width=3), marker=dict(size=9),
@@ -246,11 +236,11 @@ elif section == "Timing":
     c1, c2 = st.columns(2)
     dur = d.assign(Call=pd.cut(d["duration"], [-1, 120, 300, 600, 1e9],
                                labels=["< 2 min", "2-5 min", "5-10 min", "10+ min"]))
-    show(c1, bars((dur.groupby("Call", observed=True)["Converted"].mean() * 100), "Conversion by Call Length", SKY))
+    show(c1, bars((dur.groupby("Call", observed=True)["Converted"].mean() * 100), "Conversion by Call Length", GOLD))
     pie = d["y"].value_counts().reindex(["no", "yes"]).fillna(0)
     fig = go.Figure(go.Pie(labels=["Not subscribed", "Subscribed"], values=pie.values, hole=0.62,
                            marker=dict(colors=[SKY, CORAL]), textinfo="percent",
-                           textfont=dict(color="#ffffff", size=14), sort=False))
+                           textfont=dict(color="#0e1621", size=14), sort=False))
     fig.add_annotation(text=f"<b>{rate:.1f}%</b><br>converted", showarrow=False, font=dict(color=INK, size=18))
     fig = style(fig, "Customer Subscription Distribution")
     fig.update_layout(showlegend=True, legend=dict(font=dict(color=INK)))
@@ -271,7 +261,7 @@ else:
     <b>{po.get('unknown', 0):.1f}%</b> for new leads.</li>
 <li>Longer calls convert far better — engagement is the strongest signal of a sale.</li>
 </ul><p>Read the full analysis and recommendations in the
-<a href="{REPORT_URL}" target="_blank" style="color:{SKY};font-weight:700">project report (PDF)</a>.</p></div>
+<a href="{REPORT_URL}" target="_blank" style="color:{CORAL};font-weight:700">project report (PDF)</a>.</p></div>
 """, unsafe_allow_html=True)
 
 st.markdown(f'<div class="foot">Data: Bank Marketing (UCI) · <a href="{REPORT_URL}" target="_blank">Full report (PDF)</a>'
